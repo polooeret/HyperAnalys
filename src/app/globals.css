@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@import "@openuidev/react-ui/components.css";
+
+:root {
+  --hyperanalyse-primary: #8b5cf6; /* violet-500 */
+  --hyperanalyse-accent: #06b6d4; /* cyan-500 */
+  --hyperanalyse-gradient: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #0b0b12;
+  color-scheme: dark light;
+}
+
+body[data-theme="light"] {
+  background-color: #fafafa;
+}
+
+/* HyperAnalyse-specific tweaks for the OpenUI shell */
+
+.hyperanalyse-welcome-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--hyperanalyse-gradient);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
+}
+
+.hyperanalyse-welcome-title {
+  background: var(--hyperanalyse-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+.hyperanalyse-dropzone {
+  position: relative;
+}
+
+.hyperanalyse-dropzone[data-dropping="true"]::after {
+  content: "Drop files to attach";
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed var(--hyperanalyse-primary);
+  border-radius: 16px;
+  background: rgba(139, 92, 246, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hyperanalyse-primary);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+  z-index: 50;
+  backdrop-filter: blur(2px);
+}

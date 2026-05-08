@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="ha-gradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b5cf6" />
+      <stop offset="1" stop-color="#06b6d4" />
+    </linearGradient>
+    <linearGradient id="ha-gradient-soft" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a78bfa" />
+      <stop offset="1" stop-color="#22d3ee" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded badge -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#ha-gradient)" />
+
+  <!-- Stylised "H" in HyperAnalyse -->
+  <g stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" fill="none">
+    <line x1="18" y1="16" x2="18" y2="48" />
+    <line x1="46" y1="16" x2="46" y2="48" />
+    <line x1="18" y1="32" x2="46" y2="32" />
+  </g>
+
+  <!-- Analyser sparkline overlay (suggesting "data → insight") -->
+  <path
+    d="M14 50 L24 42 L34 46 L44 36 L52 42"
+    stroke="url(#ha-gradient-soft)"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+    opacity="0.85"
+  />
+
+  <!-- Data points -->
+  <g fill="white">
+    <circle cx="14" cy="50" r="1.8" />
+    <circle cx="24" cy="42" r="1.8" />
+    <circle cx="34" cy="46" r="1.8" />
+    <circle cx="44" cy="36" r="1.8" />
+    <circle cx="52" cy="42" r="1.8" />
+  </g>
+</svg>
