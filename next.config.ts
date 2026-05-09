@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     "google-auth-library",
     "mammoth",
     "xlsx",
+    "pptxgenjs",
   ],
 };
 

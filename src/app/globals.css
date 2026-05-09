@@ -65,3 +65,27 @@ body[data-theme="light"] {
   z-index: 50;
   backdrop-filter: blur(2px);
 }
+
+@keyframes hyperanalyse-skeleton-shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.hyperanalyse-slide-frame {
+  font-family: var(--openui-font-family, system-ui, -apple-system, "Segoe UI", sans-serif);
+}
+
+.hyperanalyse-thumb-strip {
+  scrollbar-width: thin;
+}
+.hyperanalyse-thumb-strip::-webkit-scrollbar {
+  height: 6px;
+}
+.hyperanalyse-thumb-strip::-webkit-scrollbar-thumb {
+  background: rgba(127, 127, 127, 0.35);
+  border-radius: 999px;
+}
