@@ -246,3 +246,98 @@ function cryptoRandom(): string {
   }
   return Math.random().toString(36).slice(2);
 }
+
+// ────────────────────────────────────────────────────────────────────────────
+// Static OpenUI Lang → OpenAI-compatible SSE chunks
+// Used when a tool call dispatches to a server-side handler that produces a
+// completed Lang Card synchronously. We chunk the string so the OpenUI parser
+// still gets a progressive reveal.
+// ────────────────────────────────────────────────────────────────────────────
+
+export interface StreamLangAsSSEOptions {
+  /** Approximate characters per chunk. Defaults to 256. */
+  chunkSize?: number;
+  /** Delay between chunks in milliseconds. Defaults to 12ms. */
+  delayMs?: number;
+}
+
+export function streamLangAsSSE(
+  lang: string,
+  options: StreamLangAsSSEOptions = {},
+): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
+  const chunkSize = Math.max(32, options.chunkSize ?? 256);
+  const delayMs = Math.max(0, options.delayMs ?? 12);
+  let closed = false;
+
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const safeEnqueue = (chunk: Uint8Array) => {
+        if (closed) return;
+        try {
+          controller.enqueue(chunk);
+        } catch {
+          /* already closed */
+        }
+      };
+      const safeClose = () => {
+        if (closed) return;
+        closed = true;
+        try {
+          controller.close();
+        } catch {
+          /* already closed */
+        }
+      };
+
+      const id = `chatcmpl-${cryptoRandom()}`;
+      const created = Math.floor(Date.now() / 1000);
+      const baseChunk = (delta: object, finishReason: string | null = null) => ({
+        id,
+        object: "chat.completion.chunk",
+        created,
+        model: process.env.VERTEX_MODEL || "gemini-2.5-pro",
+        choices: [
+          {
+            index: 0,
+            delta,
+            finish_reason: finishReason,
+          },
+        ],
+      });
+      const sendDelta = (delta: object, finishReason: string | null = null) => {
+        const payload = `data: ${JSON.stringify(baseChunk(delta, finishReason))}\n\n`;
+        safeEnqueue(encoder.encode(payload));
+      };
+
+      try {
+        // Initial role chunk
+        sendDelta({ role: "assistant", content: "" });
+
+        for (let i = 0; i < lang.length; i += chunkSize) {
+          if (closed) return;
+          const piece = lang.slice(i, i + chunkSize);
+          sendDelta({ content: piece });
+          if (delayMs > 0) {
+            await new Promise<void>((resolve) => setTimeout(resolve, delayMs));
+          }
+        }
+
+        sendDelta({}, "stop");
+        safeEnqueue(encoder.encode("data: [DONE]\n\n"));
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Lang stream error";
+        console.error("[hyperanalyse] lang stream error:", err);
+        safeEnqueue(
+          encoder.encode(`data: ${JSON.stringify({ error: message })}\n\n`),
+        );
+      } finally {
+        safeClose();
+      }
+    },
+    cancel() {
+      closed = true;
+    },
+  });
+}
