@@ -124,10 +124,10 @@ GOOGLE_SERVICE_ACCOUNT_JSON_BASE64=$(base64 -w0 service-account.json)
 ### 4. Run
 
 ```bash
-pnpm --filter hyperanalyse dev
+pnpm dev
 ```
 
-The `dev` script first runs `pnpm generate:prompt`, which compiles the OpenUI CLI and writes `src/generated/system-prompt.txt` from `src/library.ts`. Visit [http://localhost:3000](http://localhost:3000).
+The `dev` script first runs `pnpm generate:prompt`, which invokes the installed `openui` binary to write `src/generated/system-prompt.txt` from `src/library.ts`. Visit [http://localhost:3000](http://localhost:3000).
 
 ## File upload usage
 
