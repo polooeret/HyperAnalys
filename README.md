@@ -80,15 +80,13 @@ hyperanalyse/
 
 ## Setup
 
-### 1. Install workspace deps
-
-From the `dorabab3/openui` repo root:
+### 1. Install
 
 ```bash
 pnpm install
 ```
 
-`hyperanalyse` is registered in `pnpm-workspace.yaml` and resolves the `@openuidev/*` packages from the monorepo.
+HyperAnalyse is a standalone Next.js app — `@openuidev/react-headless`, `@openuidev/react-lang`, `@openuidev/react-ui`, and `@openuidev/cli` are pulled from npm. There is no openui monorepo dependency.
 
 ### 2. Create a Vertex AI service account
 
@@ -99,7 +97,7 @@ HyperAnalyse uses **bring-your-own-key (BYOK)** auth via a Google Cloud service 
 3. Create a service account: **IAM & Admin → Service Accounts → Create Service Account**.
    - Name: `hyperanalyse-vertex` (anything works).
    - Grant the role **Vertex AI User** (`roles/aiplatform.user`).
-4. Open the new service account → **Keys → Add Key → Create new key → JSON**. Save the file as `service-account.json` in `hyperanalyse/` (the repo's `.gitignore` already excludes it).
+4. Open the new service account → **Keys → Add Key → Create new key → JSON**. Save the file as `service-account.json` in the repo root. The `.gitignore` excludes `service-account.json`, `service-account*.json`, `.env`, `.env.local`, and `.env.*.local` so secrets stay local.
 5. Pick a region from the [Vertex AI region list](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/locations) — `us-central1` and `europe-west4` are good defaults.
 
 ### 3. Configure environment variables

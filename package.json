@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate:prompt": "pnpm --filter @openuidev/cli build && pnpm exec openui generate src/library.ts --out src/generated/system-prompt.txt",
+    "generate:prompt": "openui generate src/library.ts --out src/generated/system-prompt.txt",
     "dev": "pnpm generate:prompt && next dev",
     "build": "pnpm generate:prompt && next build",
     "start": "next start",
@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@google-cloud/vertexai": "^1.10.0",
-    "@openuidev/react-headless": "workspace:*",
-    "@openuidev/react-lang": "workspace:*",
-    "@openuidev/react-ui": "workspace:*",
+    "@openuidev/react-headless": "^0.8.1",
+    "@openuidev/react-lang": "^0.2.4",
+    "@openuidev/react-ui": "^0.11.6",
     "clsx": "^2.1.1",
     "lucide-react": "^0.575.0",
     "mammoth": "^1.8.0",
@@ -26,7 +26,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
-    "@openuidev/cli": "workspace:*",
+    "@openuidev/cli": "^0.0.6",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
